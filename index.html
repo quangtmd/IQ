@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IQ Technology - PC Parts & IT Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Function to apply theme from localStorage
+    function applyThemeFromLocalStorage() {
+      try {
+        const THEME_SETTINGS_STORAGE_KEY = 'siteThemeSettings_v1'; // Must match constants.tsx
+        const storedThemeSettings = localStorage.getItem(THEME_SETTINGS_STORAGE_KEY);
+        const root = document.documentElement;
+        
+        // Define fallbacks matching initial Tailwind config
+        const fallbacks = {
+          primaryColorDefault: '#ef4444', // red-500
+          primaryColorLight: '#f87171',  // red-400
+          primaryColorDark: '#dc2626',   // red-600
+          secondaryColorDefault: '#991b1b', // red-800
+          secondaryColorLight: '#b91c1c', // red-700
+          secondaryColorDark: '#7f1d1d',  // red-900
+        };
+
+        if (storedThemeSettings) {
+          const themeSettings = JSON.parse(storedThemeSettings);
+          root.style.setProperty('--color-primary-default', themeSettings.primaryColorDefault || fallbacks.primaryColorDefault);
+          root.style.setProperty('--color-primary-light', themeSettings.primaryColorLight || fallbacks.primaryColorLight);
+          root.style.setProperty('--color-primary-dark', themeSettings.primaryColorDark || fallbacks.primaryColorDark);
+          root.style.setProperty('--color-secondary-default', themeSettings.secondaryColorDefault || fallbacks.secondaryColorDefault);
+          root.style.setProperty('--color-secondary-light', themeSettings.secondaryColorLight || fallbacks.secondaryColorLight);
+          root.style.setProperty('--color-secondary-dark', themeSettings.secondaryColorDark || fallbacks.secondaryColorDark);
+        } else {
+          // Apply fallbacks if no settings in localStorage
+          root.style.setProperty('--color-primary-default', fallbacks.primaryColorDefault);
+          root.style.setProperty('--color-primary-light', fallbacks.primaryColorLight);
+          root.style.setProperty('--color-primary-dark', fallbacks.primaryColorDark);
+          root.style.setProperty('--color-secondary-default', fallbacks.secondaryColorDefault);
+          root.style.setProperty('--color-secondary-light', fallbacks.secondaryColorLight);
+          root.style.setProperty('--color-secondary-dark', fallbacks.secondaryColorDark);
+        }
+      } catch (e) {
+        console.error('Error loading theme settings from localStorage:', e);
+        // Fallback to CSS defined vars if JS fails
+      }
+    }
+    applyThemeFromLocalStorage(); // Apply theme before Tailwind initializes
+
+    // Tailwind Config
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 
+              light: 'var(--color-primary-light)',
+              DEFAULT: 'var(--color-primary-default)',
+              dark: 'var(--color-primary-dark)',
+            },
+            secondary: { 
+              light: 'var(--color-secondary-light)',
+              DEFAULT: 'var(--color-secondary-default)',
+              dark: 'var(--color-secondary-dark)',
+            },
+            textBase: '#1f2937',      
+            textMuted: '#6b7280',    
+            textSubtle: '#9ca3af',   
+
+            bgBase: '#ffffff',         
+            bgCanvas: '#f9fafb',       
+            bgMuted: '#f3f4f6',        
+
+            borderStrong: '#d1d5db', 
+            borderDefault: '#e5e7eb',  
+            
+            success: { text: '#059669', bg: '#ecfdf5', border: '#a7f3d0' },
+            warning: { text: '#d97706', bg: '#fffbeb', border: '#fde68a' },
+            danger:  { text: '#dc2626', bg: '#fee2e2', border: '#fca5a5' }, // Used for general danger like delete
+            'danger-bg': '#fee2e2', // Specific for error messages background
+            'danger-text': '#b91c1c', // Darker red for error text for better contrast
+            'danger-border': '#fca5a5', // Lighter red for error border
+
+            'black-alpha-80': 'rgba(0, 0, 0, 0.80)',
+            'black-alpha-90': 'rgba(23, 23, 23, 0.9)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+            'slide-in-left': 'slideInLeft 0.6s ease-out forwards',
+            'subtle-beat': 'subtleBeat 1.5s ease-in-out infinite',
+            'slide-in-from-bottom': 'slideInFromBottom 0.7s ease-out forwards',
+            'icon-hover-effect': 'iconHoverEffect 0.3s ease-out',
+            'animated-gradient': 'animatedGradient 10s ease infinite',
+            'ken-burns': 'kenBurns 20s ease-out infinite alternate',
+            'bubble-float': 'bubbleFloat 25s linear infinite',
+          },
+          keyframes: {
+            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, },
+            slideInLeft: { '0%': { opacity: '0', transform: 'translateX(-30px)' }, '100%': { opacity: '1', transform: 'translateX(0)' }, },
+            subtleBeat: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.05)' }, },
+            slideInFromBottom: { '0%': { opacity: '0', transform: 'translateY(50px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, },
+            iconHoverEffect: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.15)' }, },
+            animatedGradient: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+            kenBurns: {
+              '0%': { backgroundSize: '100% 100%', backgroundPosition: 'center center' },
+              '100%': { backgroundSize: '120% 120%', backgroundPosition: 'center center' },
+            },
+            bubbleFloat: {
+              '0%': { transform: 'translateY(0px) translateX(0px)' },
+              '25%': { transform: 'translateY(-20px) translateX(10px)' },
+              '50%': { transform: 'translateY(0px) translateX(-10px)' },
+              '75%': { transform: 'translateY(20px) translateX(5px)' },
+              '100%': { transform: 'translateY(0px) translateX(0px)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.0.1",
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0"
+  }
+}
+</script>
+<style>
+  :root { /* Define default CSS variables that Tailwind will use */
+    --color-primary-light: #f87171;   /* red-400 */
+    --color-primary-default: #ef4444; /* red-500 */
+    --color-primary-dark: #dc2626;    /* red-600 */
+    --color-secondary-light: #b91c1c; /* red-700 */
+    --color-secondary-default: #991b1b;/* red-800 */
+    --color-secondary-dark: #7f1d1d;  /* red-900 */
+    --color-primary-default-alpha-10: rgba(239, 68, 68, 0.1);
+    --color-primary-default-alpha-20: rgba(239, 68, 68, 0.2);
+  }
+  .animate-on-scroll { opacity: 0; transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+  .animate-on-scroll.is-visible { opacity: 1; transform: none !important; }
+  .animate-on-scroll.fade-in-up { transform: translateY(30px); }
+  .animate-on-scroll.slide-in-left { transform: translateX(-30px); }
+  .animate-on-scroll.slide-in-right { transform: translateX(30px); }
+  .card-hover-lift { transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; }
+  .card-hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 6px 6px rgba(0,0,0,0.05); }
+  .service-card-icon-wrapper:hover .service-card-icon { animation: iconHoverEffect 0.3s ease-out; }
+  /* Specific input style for Contact & Admin Pages */
+  .input-style { 
+    @apply w-full p-3.5 bg-white border border-borderStrong text-textBase rounded-md shadow-sm focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-textSubtle transition-shadow duration-200;
+  }
+  .input-style:focus {
+    box-shadow: 0 0 0 2px var(--color-primary-default) inset, 0 1px 2px 0 rgba(0,0,0,0.05);
+  }
+
+  /* Styles for new Shop Page design */
+  .shop-category-title-band {
+    background-color: var(--color-primary-default); /* Red from image */
+    color: white;
+    padding: 0.5rem 1rem; /* Adjusted padding */
+    font-size: 1.125rem; /* Slightly smaller */
+    font-weight: 600; /* Bold enough */
+    /* border-radius: 0.25rem 0.25rem 0 0; Removed for full-width band under main border */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .shop-sub-category-filters {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 0.5rem; /* Smaller gap */
+    padding: 0.5rem 1rem;
+    background-color: white; /* White background as in image */
+    border-bottom: 1px solid var(--color-borderDefault);
+  }
+  .shop-sub-category-filters a, 
+  .shop-sub-category-filters button {
+    font-size: 0.8rem; /* Smaller font */
+    color: var(--color-text-muted);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
+    border: none;
+  }
+  .shop-sub-category-filters a:hover, 
+  .shop-sub-category-filters button:hover {
+    color: var(--color-primary-default);
+    background-color: var(--color-primary-default-alpha-10);
+  }
+  .shop-sub-category-filters a.active,
+  .shop-sub-category-filters button.active {
+    color: var(--color-primary-dark);
+    font-weight: 500; /* Slightly less bold */
+    background-color: var(--color-primary-default-alpha-20);
+  }
+  .shop-view-all-link {
+    font-size: 0.8rem;
+    color: var(--color-primary-dark);
+    font-weight: 500;
+  }
+  .shop-view-all-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Discount badge for ProductCard */
+  .discount-badge {
+    position: absolute;
+    top: 0.5rem; /* Adjusted */
+    left: 0.5rem;  /* Adjusted */
+    background-color: var(--color-primary-dark); /* Darker red */
+    color: white;
+    font-size: 0.7rem; /* Smaller */
+    font-weight: bold;
+    border-radius: 50%;
+    width: 2.25rem; /* Adjusted */
+    height: 2.25rem; /* Adjusted */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; /* Ensure it's above image */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: 1px solid white;
+  }
+
+  /* Scrollbar Hide Utility */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* New Styles for Services Page ITS Theme */
+  .page-title-banner-its {
+    background-color: #0f172a; /* fallback */
+    position: relative;
+    overflow: hidden;
+  }
+  .page-title-banner-its .animation-bubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .page-title-banner-its .bubble {
+    position: absolute;
+    background-color: rgba(239, 68, 68, 0.15); /* Primary color with alpha */
+    border-radius: 50%;
+    animation: bubbleFloat 25s linear infinite;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2), 0 0 30px rgba(239, 68, 68, 0.1);
+  }
+  .page-title-banner-its .bubble.bubble-1 { width: 80px; height: 80px; left: 10%; animation-duration: 20s; animation-delay: 0s; }
+  .page-title-banner-its .bubble.bubble-2 { width: 100px; height: 100px; left: 20%; animation-duration: 30s; animation-delay: 5s; }
+  .page-title-banner-its .bubble.bubble-3 { width: 50px; height: 50px; left: 35%; animation-duration: 15s; animation-delay: 2s; }
+  .page-title-banner-its .bubble.bubble-4 { width: 120px; height: 120px; left: 50%; animation-duration: 35s; animation-delay: 7s; }
+  .page-title-banner-its .bubble.bubble-5 { width: 70px; height: 70px; left: 65%; animation-duration: 22s; animation-delay: 3s; }
+  .page-title-banner-its .bubble.bubble-6 { width: 90px; height: 90px; left: 80%; animation-duration: 28s; animation-delay: 6s; }
+  .page-title-banner-its .bubble.bubble-7 { width: 40px; height: 40px; left: 90%; animation-duration: 18s; animation-delay: 1s; }
+
+  .service-card-its {
+    position: relative;
+    /* Other styles will be Tailwind */
+  }
+  .service-card-its::before { /* Decorative shape from target */
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background-image: url('https://picsum.photos/seed/serviceShapeAbstract/100/100?grayscale&blur=1'); /* Placeholder for service_shape.png */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.05;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 0;
+  }
+  .service-card-its:hover::before {
+    opacity: 0.1;
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .pricing-plan-card-its ul li.unavailable {
+    text-decoration: line-through;
+    color: var(--color-text-subtle);
+  }
+  .pricing-plan-card-its ul li.unavailable i {
+    color: var(--color-text-subtle);
+  }
+  .pricing-plan-card-its ul li i {
+    color: var(--color-primary-default);
+  }
+
+</style>
+</head>
+<body class="bg-bgCanvas text-textBase font-sans">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
+<link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>
